@@ -17,7 +17,12 @@ object DownloadFiles extends App {
   }
   val response: ListObjectsV2Iterable = client.listObjectsV2Paginator(consumer)
 
-  val tempFolder = Files.createTempDirectory("tdr-export")
+  val tempFolderName = sys.env.get("OUTPUT_DIR")
+  val tempFolder = tempFolderName match {
+    case Some(folderName) => Paths.get(folderName)
+    case None => Files.createTempDirectory("tdr-export")
+  }
+
   println(s"Saving files to ${tempFolder.toAbsolutePath}")
 
   println("S3 objects:")
