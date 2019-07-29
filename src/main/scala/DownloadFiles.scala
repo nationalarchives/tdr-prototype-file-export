@@ -13,7 +13,7 @@ object DownloadFiles extends App {
   val consumer: Consumer[ListObjectsV2Request.Builder] = (requestBuilder: ListObjectsV2Request.Builder) => {
     requestBuilder
       .bucket("tdr-files")
-      .prefix("tmp-play-app")
+//      .prefix("tmp-play-app")
   }
   val response: ListObjectsV2Iterable = client.listObjectsV2Paginator(consumer)
 
@@ -34,6 +34,9 @@ object DownloadFiles extends App {
   })
 
   private def download(s3Object: S3Object, tempFolder: Path): Unit = {
+    val parentPath = Paths.get(s3Object.key).getParent
+    if (parentPath != null) createDirectory(parentPath.toString, tempFolder)
+
     val objectRequest = GetObjectRequest.builder
       .bucket("tdr-files")
       .key(s3Object.key)
