@@ -14,21 +14,23 @@ lazy val commonSettings = Seq(
   name := "tdr-prototype-export-files",
   version := "0.1",
   scalaVersion := "2.13.0",
-  libraryDependencies ++= commonDependencies
+  libraryDependencies ++= commonDependencies,
+  assemblyMergeStrategy in assembly := {
+    case "META-INF/io.netty.versions.properties" => MergeStrategy.first
+    // AWS SDK v2 configuration files - can be discarded
+    case PathList(ps@_*) if awsSdkConfigFiles.contains(ps.last) =>
+      MergeStrategy.discard
+    case x =>
+      val oldStrategy = (assemblyMergeStrategy in assembly).value
+      oldStrategy(x)
+  }
 )
 
-assemblyMergeStrategy in assembly := {
-  case "META-INF/io.netty.versions.properties" => MergeStrategy.first
-  // AWS SDK v2 configuration files - can be discarded
-  case PathList(ps@_*) if awsSdkConfigFiles.contains(ps.last) =>
-    MergeStrategy.discard
-  case x =>
-    val oldStrategy = (assemblyMergeStrategy in assembly).value
-    oldStrategy(x)
-}
-
 lazy val download = (project in file("download"))
-    .settings(commonSettings: _*)
+  .settings(commonSettings: _*)
+
+lazy val exportZip = (project in file("export-zip"))
+  .settings(commonSettings: _*)
 
 lazy val commonDependencies = Seq(
   "software.amazon.awssdk" % "aws-sdk-java" % "2.7.11"
