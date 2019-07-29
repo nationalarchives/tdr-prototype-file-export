@@ -1,8 +1,4 @@
-name := "tdr-prototype-export-files"
-
-version := "0.1"
-
-scalaVersion := "2.13.0"
+import sbt.Keys.version
 
 val awsSdkConfigFiles = Set(
   "api-2.json",
@@ -12,6 +8,13 @@ val awsSdkConfigFiles = Set(
   "paginators-1.json",
   "service-2.json",
   "waiters-2.json"
+)
+
+lazy val commonSettings = Seq(
+  name := "tdr-prototype-export-files",
+  version := "0.1",
+  scalaVersion := "2.13.0",
+  libraryDependencies ++= commonDependencies
 )
 
 assemblyMergeStrategy in assembly := {
@@ -24,4 +27,9 @@ assemblyMergeStrategy in assembly := {
     oldStrategy(x)
 }
 
-libraryDependencies += "software.amazon.awssdk" % "aws-sdk-java" % "2.7.11"
+lazy val download = (project in file("download"))
+    .settings(commonSettings: _*)
+
+lazy val commonDependencies = Seq(
+  "software.amazon.awssdk" % "aws-sdk-java" % "2.7.11"
+)
