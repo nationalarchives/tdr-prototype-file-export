@@ -1,7 +1,8 @@
 FROM openjdk:8-slim
 WORKDIR export
 RUN mkdir /tmp/tdr-export
-COPY target/scala-2.13/tdr-prototype-export-files-assembly-0.1.jar tdr-export.jar
+COPY download/target/scala-2.13/tdr-download.jar tdr-download.jar
+COPY export-zip/target/scala-2.13/tdr-export.jar tdr-export.jar
 CMD OUTPUT_DIR="$(mktemp -d)" \
   && AWS_REGION=eu-west-2 \
   AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID \
