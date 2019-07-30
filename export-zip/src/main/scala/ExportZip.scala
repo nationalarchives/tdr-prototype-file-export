@@ -8,8 +8,12 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest
 object ExportZip extends App {
   println("In export zip app")
 
-  val archiveFilename = "/tmp/tdr-files.tar.gz"
-  val archivePath = Paths.get(archiveFilename)
+  val archiveFileInput = sys.env.get("ARCHIVE_FILEPATH")
+
+  val archivePath = archiveFileInput match {
+    case Some(path) => Paths.get(path)
+    case None => throw new IllegalArgumentException("Missing environment variable 'ARCHIVE_FILEPATH'")
+  }
 
   val client = S3Client.create
 
