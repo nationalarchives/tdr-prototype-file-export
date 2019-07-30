@@ -11,4 +11,8 @@ CMD OUTPUT_DIR="$(mktemp -d)" \
   java -jar tdr-download.jar \
   && tar -zcvf tdr-files.tar.gz $OUTPUT_DIR \
   && tar -tvf tdr-files.tar.gz \
-  && java -jar tdr-export.jar
+  && AWS_REGION=eu-west-2 \
+  AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID \
+  AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY \
+  ARCHIVE_FILEPATH=tdr-files.tar.gz \
+  java -jar tdr-export.jar
