@@ -28,9 +28,11 @@ lazy val commonSettings = Seq(
 
 lazy val download = (project in file("download"))
   .settings(commonSettings: _*)
+  .settings(assemblyJarName in assembly := "tdr-download.jar")
 
 lazy val exportZip = (project in file("export-zip"))
   .settings(commonSettings: _*)
+  .settings(assemblyJarName in assembly := "tdr-export.jar")
 
 lazy val commonDependencies = Seq(
   "software.amazon.awssdk" % "aws-sdk-java" % "2.7.11"
