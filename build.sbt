@@ -32,8 +32,12 @@ lazy val download = (project in file("download"))
 
 lazy val exportZip = (project in file("export-zip"))
   .settings(commonSettings: _*)
-  .settings(assemblyJarName in assembly := "tdr-export.jar")
+  .settings(
+    assemblyJarName in assembly := "tdr-export.jar",
+    libraryDependencies += "com.jcraft" % "jsch" % "0.1.55"
+  )
 
+// TODO: Split dependencies for each project
 lazy val commonDependencies = Seq(
   "software.amazon.awssdk" % "aws-sdk-java" % "2.7.11"
 )
