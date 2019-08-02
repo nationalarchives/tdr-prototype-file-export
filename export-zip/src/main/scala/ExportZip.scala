@@ -29,7 +29,7 @@ object ExportZip extends App {
 
   val inputStream = new FileInputStream(archivePath.toString)
 
-  println("Transferring file")
+  println(s"Transferring file '$transferredFileName'")
   sftpChannel.put(inputStream, transferredFileName)
   println("File transferred")
 
