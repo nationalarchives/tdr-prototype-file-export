@@ -29,7 +29,7 @@ lazy val download = (project in file("download"))
   .settings(commonSettings: _*)
   .settings(
     assemblyJarName in assembly := "tdr-download.jar",
-    libraryDependencies += "software.amazon.awssdk" % "aws-sdk-java" % "2.7.11"
+    libraryDependencies += "software.amazon.awssdk" % "s3" % "2.7.15"
   )
 
 lazy val exportZip = (project in file("export-zip"))
