@@ -1,6 +1,5 @@
 FROM openjdk:8-slim
 WORKDIR export
-RUN mkdir /tmp/tdr-export
 COPY download/target/scala-2.13/tdr-download.jar tdr-download.jar
 COPY export-zip/target/scala-2.13/tdr-export.jar tdr-export.jar
 CMD OUTPUT_DIR="$(mktemp -d)" \
