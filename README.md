@@ -54,10 +54,13 @@ testing purposes, or the TNA GPG public key.
 Run:
 
 ```
-ARCHIVE_FILEPATH=/path/of/file/to/upload sbt exportZip run
+ARCHIVE_FILEPATH=/path/of/file/to/upload \
+  FTP_ENDPOINT=some-ftp.example.com \
+  FTP_USERNAME=someUsername \
+  sbt exportZip run
 ```
 
-setting the `ARCHIVE_FILEPATH` variable to the file to be uploaded.
+setting the `ARCHIVE_FILEPATH` variable to the file to be uploaded, and filling in `FTP_ENDPOINT` and `FTP_USERNAME`.
 
 By default, this step will read your SSH key from `~/.ssh/id_rsa`. Set the `SSH_KEY_FILE` environment variable to use a
 different key.
@@ -75,6 +78,8 @@ different key.
     --env TNA_GPG_RECIPIENT="gpg-key-owner@example.com" \
     --env ACCESS_KEY_ID=your_aws_key_id \
     --env SECRET_ACCESS_KEY=your_aws_secret_key \
+    --env FTP_ENDPOINT=some-ftp.example.com \
+    --env FTP_USERNAME=someUsername \
     exportfiles:latest
   ```
 

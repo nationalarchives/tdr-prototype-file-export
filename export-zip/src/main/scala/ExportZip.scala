@@ -8,11 +8,13 @@ object ExportZip extends App {
   println("In export zip app")
 
   val archiveFileInput = sys.env.get("ARCHIVE_FILEPATH")
-
   val archivePath = archiveFileInput match {
     case Some(path) => Paths.get(path)
     case None => throw new IllegalArgumentException("Missing environment variable 'ARCHIVE_FILEPATH'")
   }
+
+  val ftpServerEndpoint = sys.env.getOrElse("FTP_ENDPOINT", throw new IllegalArgumentException("Missing environment variable 'FTP_ENDPOINT'"))
+  val ftpUsername = sys.env.getOrElse("FTP_USERNAME", throw new IllegalArgumentException("Missing environment variable 'FTP_USERNAME'"))
 
   val transferredFileName = s"transfer-${UUID.randomUUID}.gpg"
 
@@ -56,7 +58,7 @@ object ExportZip extends App {
         jsch.addIdentity(privateKey)
 
         val port = 22
-        val session = jsch.getSession("smh-test", "s-ad045f92709e441a8.server.transfer.eu-west-2.amazonaws.com", 22)
+        val session = jsch.getSession(ftpUsername, ftpServerEndpoint, 22)
         val config = new java.util.Properties
         // TODO: Set host key rather than skipping key checking
         config.put("StrictHostKeyChecking", "no")
