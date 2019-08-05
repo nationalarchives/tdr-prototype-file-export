@@ -14,7 +14,7 @@ object ExportZip extends App {
     case None => throw new IllegalArgumentException("Missing environment variable 'ARCHIVE_FILEPATH'")
   }
 
-  val transferredFileName = s"transfer-${UUID.randomUUID}.tar.gz"
+  val transferredFileName = s"transfer-${UUID.randomUUID}.gpg"
 
   val session = connectSession()
 

@@ -11,7 +11,8 @@ The full export has several steps:
 
 - Download files from S3
 - Zip the files
-- Upload the files to an FTP server
+- Encrypt the zip file
+- Upload the encrypted file to an FTP server
 
 You can run the steps separately, or run them together with Docker.
 
@@ -41,7 +42,14 @@ Use `tar` to create a .tar.gz file:
 tar -zcvf name-of-output-file.tar.gz /path/of/directory/to/zip
 ```
 
-### Step 3: upload the zip file
+### Step 3: encrypt the archive
+
+Encrypt the tar.gz file using [gpg2]. How exactly you do this depends on whether you are using your own GPG key for
+testing purposes, or the TNA GPG public key.
+
+[gpg2]: https://linux.die.net/man/1/gpg2
+
+### Step 4: upload the encrypted file
 
 Run:
 
@@ -57,11 +65,14 @@ different key.
 ### Run all steps in Docker
 
 - Build the image with `docker build . --tag exportfiles`
-- Run the Docker image, setting environment variables with your AWS key ID, AWS secret key and SSH key contents:
+- Run the Docker image, setting environment variables with your AWS key ID, AWS secret key, SSH key contents, and GPG
+  public key contents and recipient ID:
 
   ```
   docker run \
     --env FTP_SSH_KEY="`cat ~/.ssh/id_rsa`" \
+    --env TNA_GPG_PUBLIC_KEY="`cat ~/tna-gpg.pub`" \
+    --env TNA_GPG_RECIPIENT="gpg-key-owner@example.com" \
     --env ACCESS_KEY_ID=your_aws_key_id \
     --env SECRET_ACCESS_KEY=your_aws_secret_key \
     exportfiles:latest
