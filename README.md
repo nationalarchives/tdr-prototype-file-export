@@ -67,6 +67,7 @@ different key.
 
 ### Run all steps in Docker
 
+- Build the jar files with `sbt clean assembly`
 - Build the image with `docker build . --tag exportfiles`
 - Run the Docker image, setting environment variables with your AWS key ID, AWS secret key, SSH key contents, and GPG
   public key contents and recipient ID:
