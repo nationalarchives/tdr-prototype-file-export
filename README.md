@@ -12,7 +12,7 @@ The full export has several steps:
 - Download files from S3
 - Zip the files
 - Encrypt the zip file
-- Upload the encrypted file to an FTP server
+- Upload the encrypted file to a different S3 bucket
 
 You can run the steps separately, or run them together with Docker.
 
@@ -55,32 +55,24 @@ Run:
 
 ```
 ARCHIVE_FILEPATH=/path/of/file/to/upload \
-  FTP_ENDPOINT=some-ftp.example.com \
-  FTP_USERNAME=someUsername \
   sbt exportZip run
 ```
 
-setting the `ARCHIVE_FILEPATH` variable to the file to be uploaded, and filling in `FTP_ENDPOINT` and `FTP_USERNAME`.
-
-By default, this step will read your SSH key from `~/.ssh/id_rsa`. Set the `SSH_KEY_FILE` environment variable to use a
-different key.
+setting the `ARCHIVE_FILEPATH` variable to the file to be uploaded.
 
 ### Run all steps in Docker
 
 - Build the jar files with `sbt clean assembly`
 - Build the image with `docker build . --tag exportfiles`
-- Run the Docker image, setting environment variables with your AWS key ID, AWS secret key, SSH key contents, and GPG
-  public key contents and recipient ID:
+- Run the Docker image, setting environment variables with your AWS key ID, AWS secret key, and GPG public key contents
+  and recipient ID:
 
   ```
   docker run \
-    --env FTP_SSH_KEY="`cat ~/.ssh/id_rsa`" \
     --env TNA_GPG_PUBLIC_KEY="`cat ~/tna-gpg.pub`" \
     --env TNA_GPG_RECIPIENT="gpg-key-owner@example.com" \
     --env ACCESS_KEY_ID=your_aws_key_id \
     --env SECRET_ACCESS_KEY=your_aws_secret_key \
-    --env FTP_ENDPOINT=some-ftp.example.com \
-    --env FTP_USERNAME=someUsername \
     exportfiles:latest
   ```
 

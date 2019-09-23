@@ -14,6 +14,7 @@ lazy val commonSettings = Seq(
   name := "tdr-prototype-export-files",
   version := "0.1",
   scalaVersion := "2.13.0",
+  libraryDependencies += "software.amazon.awssdk" % "s3" % "2.7.15",
   assemblyMergeStrategy in assembly := {
     case "META-INF/io.netty.versions.properties" => MergeStrategy.first
     // AWS SDK v2 configuration files - can be discarded
@@ -28,13 +29,11 @@ lazy val commonSettings = Seq(
 lazy val download = (project in file("download"))
   .settings(commonSettings: _*)
   .settings(
-    assemblyJarName in assembly := "tdr-download.jar",
-    libraryDependencies += "software.amazon.awssdk" % "s3" % "2.7.15"
+    assemblyJarName in assembly := "tdr-download.jar"
   )
 
 lazy val exportZip = (project in file("export-zip"))
   .settings(commonSettings: _*)
   .settings(
-    assemblyJarName in assembly := "tdr-export.jar",
-    libraryDependencies += "com.jcraft" % "jsch" % "0.1.55"
+    assemblyJarName in assembly := "tdr-export.jar"
   )
