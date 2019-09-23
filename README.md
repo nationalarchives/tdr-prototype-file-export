@@ -42,14 +42,7 @@ Use `tar` to create a .tar.gz file:
 tar -zcvf name-of-output-file.tar.gz /path/of/directory/to/zip
 ```
 
-### Step 3: encrypt the archive
-
-Encrypt the tar.gz file using [gpg2]. How exactly you do this depends on whether you are using your own GPG key for
-testing purposes, or the TNA GPG public key.
-
-[gpg2]: https://linux.die.net/man/1/gpg2
-
-### Step 4: upload the encrypted file
+### Step 3: upload the encrypted file
 
 Run:
 
@@ -64,13 +57,10 @@ setting the `ARCHIVE_FILEPATH` variable to the file to be uploaded.
 
 - Build the jar files with `sbt clean assembly`
 - Build the image with `docker build . --tag exportfiles`
-- Run the Docker image, setting environment variables with your AWS key ID, AWS secret key, and GPG public key contents
-  and recipient ID:
+- Run the Docker image, setting environment variables with your AWS key ID and AWS secret key:
 
   ```
   docker run \
-    --env TNA_GPG_PUBLIC_KEY="`cat ~/tna-gpg.pub`" \
-    --env TNA_GPG_RECIPIENT="gpg-key-owner@example.com" \
     --env ACCESS_KEY_ID=your_aws_key_id \
     --env SECRET_ACCESS_KEY=your_aws_secret_key \
     exportfiles:latest

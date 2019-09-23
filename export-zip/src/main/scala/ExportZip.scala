@@ -15,7 +15,7 @@ object ExportZip extends App {
   }
 
   val client = S3Client.create
-  val transferredFileName = s"transfer-${UUID.randomUUID}.gpg"
+  val transferredFileName = s"transfer-${UUID.randomUUID}.tar.gz"
 
   val consumer: Consumer[PutObjectRequest.Builder] = (requestBuilder: PutObjectRequest.Builder) => {
     requestBuilder
