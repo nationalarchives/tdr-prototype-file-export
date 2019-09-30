@@ -29,7 +29,13 @@ lazy val commonSettings = Seq(
 lazy val download = (project in file("download"))
   .settings(commonSettings: _*)
   .settings(
-    assemblyJarName in assembly := "tdr-download.jar"
+    assemblyJarName in assembly := "tdr-download.jar",
+    libraryDependencies ++= Seq(
+      "ca.ryangreen" % "apigateway-generic-java-sdk" % "1.3",
+      "io.circe" %% "circe-core" % "0.12.1",
+      "io.circe" %% "circe-generic" % "0.12.1",
+      "io.circe" %% "circe-parser" % "0.12.1"
+    )
   )
 
 lazy val exportZip = (project in file("export-zip"))
