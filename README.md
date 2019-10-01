@@ -63,12 +63,15 @@ setting the `ARCHIVE_FILEPATH` variable to the file to be uploaded.
 
 - Build the jar files with `sbt clean assembly`
 - Build the image with `docker build . --tag exportfiles`
-- Run the Docker image, setting environment variables with your AWS key ID and AWS secret key:
+- Run the Docker image, setting environment variables:
 
   ```
   docker run \
     --env ACCESS_KEY_ID=your_aws_key_id \
     --env SECRET_ACCESS_KEY=your_aws_secret_key \
+    --env GRAPHQL_SERVER=https://graphql-api-hostname.amazonaws.com \
+    --env GRAPHQL_PATH=some/api/path \
+    --env CONSIGNMENT_ID=1234 \
     exportfiles:latest
   ```
 
