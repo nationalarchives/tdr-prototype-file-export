@@ -11,7 +11,6 @@ The full export has several steps:
 
 - Download files from S3
 - Zip the files
-- Encrypt the zip file
 - Upload the encrypted file to a different S3 bucket
 
 You can run the steps separately, or run them together with Docker.
