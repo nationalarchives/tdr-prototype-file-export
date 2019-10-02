@@ -32,6 +32,8 @@ lazy val download = (project in file("download"))
     assemblyJarName in assembly := "tdr-download.jar",
     libraryDependencies ++= Seq(
       "ca.ryangreen" % "apigateway-generic-java-sdk" % "1.3",
+      "com.github.tototoshi" %% "scala-csv" % "1.3.6",
+      "gov.loc" % "bagit" % "5.2.0",
       "io.circe" %% "circe-core" % "0.12.1",
       "io.circe" %% "circe-generic" % "0.12.1",
       "io.circe" %% "circe-parser" % "0.12.1"
