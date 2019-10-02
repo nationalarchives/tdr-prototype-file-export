@@ -9,13 +9,14 @@ object ExportZip extends App {
   println("In export zip app")
 
   val archivePath = Paths.get(sys.env("ARCHIVE_FILEPATH"))
+  val exportBucket = sys.env.getOrElse("EXPORT_BUCKET", "tdr-prototype-export")
 
   val client = S3Client.create
   val transferredFileName = s"transfer-${UUID.randomUUID}.tar.gz"
 
   val consumer: Consumer[PutObjectRequest.Builder] = (requestBuilder: PutObjectRequest.Builder) => {
     requestBuilder
-      .bucket("tdr-prototype-export")
+      .bucket(exportBucket)
       .key(transferredFileName)
   }
 

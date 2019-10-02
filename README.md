@@ -59,6 +59,8 @@ ARCHIVE_FILEPATH=/path/of/file/to/upload \
 
 setting the `ARCHIVE_FILEPATH` variable to the file to be uploaded.
 
+You can also set the S3 bucket to upload the file to in an optional parameter: `EXPORT_BUCKET`.
+
 ### Run all steps in Docker
 
 - Build the jar files with `sbt clean assembly`
@@ -72,6 +74,7 @@ setting the `ARCHIVE_FILEPATH` variable to the file to be uploaded.
     --env GRAPHQL_SERVER=https://graphql-api-hostname.amazonaws.com \
     --env GRAPHQL_PATH=some/api/path \
     --env CONSIGNMENT_ID=1234 \
+    --env EXPORT_BUCKET=name-of-s3-bucket \
     exportfiles:latest
   ```
 
