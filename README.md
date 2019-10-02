@@ -54,7 +54,7 @@ Run:
 
 ```
 ARCHIVE_FILEPATH=/path/of/file/to/upload \
-  sbt exportZip run
+  sbt exportZip/run
 ```
 
 setting the `ARCHIVE_FILEPATH` variable to the file to be uploaded.
