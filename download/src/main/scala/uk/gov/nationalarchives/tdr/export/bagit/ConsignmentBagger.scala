@@ -28,9 +28,10 @@ object ConsignmentBagger {
 
   private def generateClientSideMetadata(consignment: Consignment): Seq[Seq[Any]] = {
     val headerRow = Seq("file", "date_last_modified", "sha256", "filesize")
-    val clientMetadata = consignment.files.map(file =>
-      Seq(file.path, file.lastModifiedDate, file.fileStatus.clientSideChecksum, file.fileSize)
-    )
+    val clientMetadata = consignment.files.map(file => {
+      val pathInBag = s"data/${file.path}"
+      Seq(pathInBag, file.lastModifiedDate, file.fileStatus.clientSideChecksum, file.fileSize)
+    })
     headerRow +: clientMetadata
   }
 }
