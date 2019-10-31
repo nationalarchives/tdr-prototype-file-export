@@ -37,7 +37,6 @@ object ApiQueries {
         s"""query { getConsignment(id: $consignmentId) {
             keySetConnections(limit: $batchSize, after: "$after", pageNumber: $pageNumber) {
               edges {
-                cursor,
                 node {id, path, fileSize, lastModifiedDate, fileStatus { clientSideChecksum } }
               }
               pageInfo {
@@ -78,7 +77,7 @@ object ApiQueries {
 
 case class GetConsignmentResponse(data: GetConsignmentResponseData)
 case class GetConsignmentResponseData(getConsignment: Consignment)
-case class Consignment(name: String, id: Int, transferringBody: String, series: Series)
+case class Consignment(id: Int, transferringBody: String, series: Series)
 case class File(id: String, path: String, fileSize: Int, lastModifiedDate: Instant, fileStatus: FileStatus)
 case class FileStatus(clientSideChecksum: String)
 case class Series(name: String)
@@ -88,4 +87,4 @@ case class GetFileConnectionsResponseData(getConsignment: ConsignmentFileConnect
 case class ConsignmentFileConnections(keySetConnections: Connections)
 case class Connections(pageInfo: PageInfo, edges: Seq[Edge])
 case class PageInfo(endCursor: String, hasNextPage: Boolean)
-case class Edge(cursor: String, node: File)
+case class Edge(node: File)
