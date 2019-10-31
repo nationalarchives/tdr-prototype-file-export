@@ -2,19 +2,19 @@ package uk.gov.nationalarchives.tdr.export.bagit
 
 import java.nio.file.Path
 
-import uk.gov.nationalarchives.tdr.export.api.Consignment
+import uk.gov.nationalarchives.tdr.export.api.{Consignment, File}
 
 object ConsignmentBagger {
-  def saveBag(consignment: Consignment, filesDirectory: Path, outputDirectory: Path): Unit = {
+  def saveBag(consignment: Consignment, consignmentFiles: Seq[File], filesDirectory: Path, outputDirectory: Path): Unit = {
 
     val bagger = new Bagger(filesDirectory, outputDirectory)
-    bagger.saveMandatoryFiles(extractTopLevelMetadata(consignment))
-    bagger.addCustomMetadataCsv("client-metadata.csv", generateClientSideMetadata(consignment))
+    bagger.saveMandatoryFiles(extractTopLevelMetadata(consignment, consignmentFiles))
+    bagger.addCustomMetadataCsv("client-metadata.csv", generateClientSideMetadata(consignmentFiles))
     bagger.validate()
   }
 
-  private def extractTopLevelMetadata(consignment: Consignment): Map[String, String] = {
-    val bagSize = consignment.files.map(f => f.fileSize).sum
+  private def extractTopLevelMetadata(consignment: Consignment, consignmentFiles: Seq[File]): Map[String, String] = {
+    val bagSize = consignmentFiles.map(f => f.fileSize).sum
 
     Map(
       // In Beta, we should get the version programatically
@@ -26,9 +26,9 @@ object ConsignmentBagger {
     )
   }
 
-  private def generateClientSideMetadata(consignment: Consignment): Seq[Seq[Any]] = {
+  private def generateClientSideMetadata(consignmentFiles: Seq[File]): Seq[Seq[Any]] = {
     val headerRow = Seq("file", "date_last_modified", "sha256", "filesize")
-    val clientMetadata = consignment.files.map(file => {
+    val clientMetadata = consignmentFiles.map(file => {
       val pathInBag = s"data/${file.path}"
       Seq(pathInBag, file.lastModifiedDate, file.fileStatus.clientSideChecksum, file.fileSize)
     })
