@@ -62,7 +62,6 @@ object ApiQueries {
     val consignmentInfoQuery =
       s"""query { getConsignment(id: $consignmentId) {
          |  id,
-         |  name,
          |  transferringBody,
          |  series { name }
          |} }""".stripMargin
