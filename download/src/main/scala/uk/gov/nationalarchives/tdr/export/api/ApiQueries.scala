@@ -15,27 +15,26 @@ object ApiQueries {
   def getConsignmentFiles(
                            consignmentId: Int,
                            hasNextPage: Boolean = true,
-                           pageNumber: Int = 1,
-                           after: String = "",
+                           currentCursor: String = "",
                            files: Seq[File] = List()): Seq[File] = {
 
     val apiClient = new ApiClient
 
     if(hasNextPage) {
-      val connectionResults = getConsignmentFilesPage(consignmentId, after, pageNumber, apiClient)
+      val connectionResults = getConsignmentFilesPage(consignmentId, currentCursor, apiClient)
       val response = connectionResults.get
       val filesAccumulator: Seq[File] = response.edges.map(e => e.node) ++ files
-      getConsignmentFiles(consignmentId, response.pageInfo.hasNextPage, pageNumber + 1, response.pageInfo.endCursor, filesAccumulator)
+      getConsignmentFiles(consignmentId, response.pageInfo.hasNextPage, response.pageInfo.endCursor, filesAccumulator)
     } else {
       files
     }
   }
 
-  private def getConsignmentFilesPage(consignmentId: Int, after: String, pageNumber: Int, apiClient: ApiClient): Try[Connections] = {
-    val batchSize = 100
+  private def getConsignmentFilesPage(consignmentId: Int, currentCursor: String, apiClient: ApiClient): Try[Connections] = {
+    val batchSize = sys.env.getOrElse("CONSIGNMENT_FILES_BATCH_SIZE", 1000)
     val paginatedQuery =
         s"""query { getConsignment(id: $consignmentId) {
-            keySetConnections(limit: $batchSize, after: "$after", pageNumber: $pageNumber) {
+            keySetConnections(limit: $batchSize, currentCursor: "$currentCursor") {
               edges {
                 node {id, path, fileSize, lastModifiedDate, fileStatus { clientSideChecksum } }
               }
