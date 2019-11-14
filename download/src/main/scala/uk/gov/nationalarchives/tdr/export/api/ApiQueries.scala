@@ -77,7 +77,7 @@ object ApiQueries {
 case class GetConsignmentResponse(data: GetConsignmentResponseData)
 case class GetConsignmentResponseData(getConsignment: Consignment)
 case class Consignment(id: Int, transferringBody: String, series: Series)
-case class File(id: String, path: String, fileSize: Int, lastModifiedDate: Instant, fileStatus: FileStatus)
+case class File(id: String, path: String, fileSize: Long, lastModifiedDate: Instant, fileStatus: FileStatus)
 case class FileStatus(clientSideChecksum: String)
 case class Series(name: String)
 
